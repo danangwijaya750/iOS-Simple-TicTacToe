@@ -15,9 +15,7 @@ struct ContentView: View {
     @State private var isHumanTurn = true
     var body: some View {
         GeometryReader{ geo in
-            VStack{
-                Spacer()
-                Spacer()
+            VStack{Spacer()
                 LazyVGrid(columns:cols,spacing:5){
                     ForEach(0..<9){i in
                         ZStack{
@@ -30,14 +28,20 @@ struct ContentView: View {
                                 .foregroundColor(.white)
                         }
                         .onTapGesture {
+                            if(checkSquare(in:moves,forIndex:i)){return}
                             moves[i] = Move(player: isHumanTurn ? .human : .bot, index: i)
                             isHumanTurn.toggle()
                         }
                     }
+                   
                 }
                 Spacer()
-                
-        }
+            }.padding()
+            
+    }
+}
+    func checkSquare(in moves:[Move?], forIndex ind : Int)-> Bool{
+        return moves.contains(where:{$0?.index == ind})
     }
 }
     
@@ -58,4 +62,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-}
+
